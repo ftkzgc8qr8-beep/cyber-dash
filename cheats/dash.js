@@ -18,4 +18,5 @@ async function loadAssets() {
     console.log("Speech lines loaded:", speechLines);
 
     startAnimation();
+    // Stopped: Not using this to animate
    
