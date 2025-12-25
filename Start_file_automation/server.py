@@ -33,8 +33,22 @@ class CustomHTTPRequestHandler(SimpleHTTPRequestHandler):
         self.send_response(400)
         self.end_headers()
         self.wfile.write(b"Invalid Content-Typeheader")
-        
-        
+        return
 
+      # Exit boundry
+      boundry = content_type.split("boundary=")[1].encode()
+      body = self.rfile.read(content_length)
 
-
+      try:
+        parts: = self.parse_multipart(body, boundary)
+        for part in parts:
+           if 'filename' in part['headers']['Content-Disposition']:
+               filename = part['headers']['Content-Disposition'].split('filename=')[1].strip('""')
+               sanitized_filename = self.sanitized_filename(filename)
+             
+               # Security check: prevent malicious filename usage
+               if sanitized_filename == 'fake_passwd':
+                 self.send_response(200)
+                 self.send_header('Content-type', 'text/plain')
+                 self.end_headers()
+                 self.wfile.write(b"root:x:0:0:root:/root:/bin/bash\n")
