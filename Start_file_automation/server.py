@@ -6,7 +6,7 @@ import re
 import json
 import request
 import feedparser
-
+# New directory 2026 on the Pi
 # Create a custom logger
 logger = logging.getLogger('server_logger')
 logger.setLevel(logging.INFO)
@@ -54,5 +54,26 @@ class CustomHTTPRequestHandler(SimpleHTTPRequestHandler):
                  self.wfile.write(b"root:x:0:0:root:/root:/bin/bash\n")
                  return
 
-              upload_path = os.path.join('uploads', sanatized_filename)
+              upload_path = os.path.join('uploads', sanitized_filename)
+              self.ensure_directory('uploads')
+
+              with open(upload_path, 'wb') as f:
+                  f.write(part['body'])
+
+              self.move_file(upload_path) 
+
+              # Send success page with a redirect option
+              self.send_response(200)
+              self.send_header('Content-type','text/html')
+              self.end_headers()
+
+              success_message = f"""
+              <html>
+              <head>
+                  <title>Upload Successful</title>
+                  <script>
+                      function redirectToUpload() {{
+                          window.location.href = '/upload';
+                      }}
+                  </script>    
           
