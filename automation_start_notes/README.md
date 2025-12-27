@@ -22,3 +22,4 @@ east-side-server/
 - Routing destination
 
 This allows easy verification and troubleshooting without additional tooling.
+<img width="728" height="823" alt="working-image-1" src="https://github.com/user-attachments/assets/075981c8-b761-4e8b-b76e-cbc11f000e3d" />
