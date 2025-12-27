@@ -1,3 +1,5 @@
+// Intentionally unused at the moment; preserved for later use
+
 let frames = [];
 let speechframes = [];
 let frameindex = 0;
