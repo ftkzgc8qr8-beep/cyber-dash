@@ -1,4 +1,4 @@
-# Directory Structure
+# Directory Structure | Today 12-27-2025 start writting the new code. server.py and the index.html file
 
 ```bash
 east-side-server/
