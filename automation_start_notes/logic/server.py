@@ -54,4 +54,23 @@ class CustomHTTPRequestHandler(SimpleHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(b'No file field found')
                 return
-              
+#----------- Twelve Space Marker
+            file_item = form['file']
+            if not file_item.filename:
+                self.send_response(400)
+                self.end_headers()
+                self.wfile.write(b'Empty filename')
+                return
+#----------- Twelve Space Marker
+            filename = self.sanitize_filename(file_item.filename)
+#----------- Twelve Space Marker            
+            # Stage upload
+            self.ensure_directory('uploads') # {^_^}LOOKFLAG=> USING upload(s)
+            upload_path = os.path.join('uploads', filename)
+#----------- Twelve Space Marker            
+            with open(upload_path, 'wb') as f:
+                f.write(file_item.file.read())
+#----------- Twelve Space Marker
+            # Route file based on prefix rules
+
+
