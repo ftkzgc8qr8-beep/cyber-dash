@@ -72,5 +72,35 @@ class CustomHTTPRequestHandler(SimpleHTTPRequestHandler):
                 f.write(file_item.file.read())
 #----------- Twelve Space Marker
             # Route file based on prefix rules
-
+            self.move_file(upload_path)
+            
+            logger.info(f'File uploaded and routed: {filename}')
+#----------- Twelve Space Marker            
+            # Success response
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+#----------- Twelve Space Marker -- HTML Section below --
+            success_message = f"""
+            <html>
+            <head>
+                <title>Upload Successful</title>
+                <script>
+                    function redirectToUpload() {{
+                        window.location.href = '/upload';
+                    }}
+                </script>
+            </head>
+            <body style="text-align:center; background-color: black; color: green;">
+                <h2>File Uploaded Successfully!</h2>
+                <p>File: {filename}</p>
+                <img src="/success.png" width="300"><br><br>
+                <button onclick="redirectToUpload()"
+                    style="font-size:18px; padding:10px; background-color:#34ac44;
+                    color:white; border:none; border-radius:5px; cursor:pointer;">
+                    ⬅ Upload Another File
+                </button>
+            </body>
+            </html>
+            """
 
