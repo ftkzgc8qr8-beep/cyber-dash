@@ -104,4 +104,15 @@ class CustomHTTPRequestHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/success.png':
             if os.path.exists('success.png'):
-              # Reformatted above
+                with open('success.png','rb') as f:
+                    self.send_response(200)
+                    self.send_headers('Content_type','image/png')
+                    self.end_headers()
+                    self.wfile.write(f.read())
+            else:
+                    self.send_response(404)
+                    self.send_headers('Content_type','text/html')
+                    self.end_headers()
+                    self.wfile.write(b"<h2>Image Not Found</h2><p>Please upload success.png</p>")
+       # Locate the origianl version and test before writing more lines         
+                
