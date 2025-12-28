@@ -103,5 +103,28 @@ class CustomHTTPRequestHandler(SimpleHTTPRequestHandler):
             </body>
             </html>
             """
-#----------- Twelve Space Marker -- HTML Section below --> Pull Request from laptop             
+#-----------|-- HTML Section above --> Pull Request from laptop -- code start below --|
+            self.wfile.write(success_message.encode())
+
+        except Exception as e:
+            logger.error(f'Error during file upload: {e}')
+            self.send_response(500)
+            self.end_headers()
+            self.wfile.write(b'Internal server error')
+
+#---Four Space Marker
+    # GET: Static + RSS
+#---Four Space Marker --> do_GET Note: the success.png has no influance on the rss feed
+    def do_GET(self):
+        if self.path == '/success.png':
+            self.serve_image('success.png')
+
+    elif self.path == '/fetch_rss':
+            
+
+            
+            
+
+     
+
 
