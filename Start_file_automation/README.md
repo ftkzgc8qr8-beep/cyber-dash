@@ -3,4 +3,4 @@
 -  E.G. user types a programmed string to decode
 -  the javascript redirects to the IoT dashboard
 
-## server.py this dir is for artifacts and not using
+
