@@ -65,43 +65,66 @@
     }
   </style>
 </head>
+
 <body>
 
-<div ip="title">Below are the buttons to link on the 0.0.0.0/24 Network!</div>
-<div id="ascii"></div>
-<div id="speech"</div>
+  <div id="title">
+    Below are the buttons to link to host on the 0.0.0.0/24 Network!
+  </div>
+
+  <div id="ascii"></div>
+  <div id="speech"</div>
 
  <div id="effectButton">
   <button class="btn" id="restartBtn" style="display: none; margin-top: 20px;">Restart Animation</button>
-  <button class="btn">protectli.dubz-vault.corp</button>
-  <button class="btn">esxi-serv.dubz-vault.corp</button>
-  <button class="btn">esxi-sec.dubz-vault.corp</button>
-  <button class="btn">dubzpi.dubz-vault.corp</button>
-  <button class="btn">esxi-clients.dubz-vault.corp</button>
-  <button class="btn">removed0.dubz-vault.corp</button>
-  <button class="btn">available.dubz-vault.corp</button>
-  <button class="btn">unused</button>
-  <button class="btn">unused</button>
-  <button class="btn">unused</button>
+  <button class="btn">host0.FQDN</button>
+  <button class="btn">host1.FQDN</button>
+  <button class="btn">host2.FQDN</button>
+  <button class="btn">host3.FQDN</button>
+  <button class="btn">host4.FQDN</button>
+  <button class="btn">host5.FQDN</button>
+  <button class="btn">host6.FQDN</button>
+  <button class="btn">unused1</button>
+  <button class="btn">unused2</button>
+  <button class="btn">unused3</button>
  </div>
 
  <script>
-   const title = ducument.getElementById('title');
-   let blinkCount = 0;
+/* ========================================
+LOOP + TIMING CONFIG 
+ ========================================*/
+const LOOP_ENABLED        = true;     // master on/off
+const LOOP_DELAY_MS       = 25000;    // wait AFTER tux animation
+const FRAME_INTERVAL_MS   = 600;      // tux animation speed
+const SPEECH_INTERVAL_MS  = 5000;     // delay between speech lines
+const TITLE_BLINK_MS      = 300;      // title blink speed
+/* ======================================*/
 
-   function blinkTitle() {
-     if (blinkCount >= 6) {
-       title.style.opacity = 1;
-       startTuxIntro();
-       return;
-     } 
+const title =  document.getElementById('title');
+const ascii =  document.getElementById('ascii');
+const speech = document.getElementById('speech');
+const buttonsContainer = document.getElementById('effectButtons');
+ 
+let blinkCount = 0;
+let frameIndex = 0;
+let speechIndex = 0;
+let animationInterval; 
 
-     title.style.opacity = (title.style.opacity == 0 ? 1 : 0);
-     blinkCount++;
-     setTimeout(blinkTitle, 300);
-   }
+/* ========= TITLE BLINK ========= */    
+function blinkTitle() {
+  if (blinkCount >= 6) {
+    title.style.opacity = 1;
+    startTuxIntro();
+    return;
+  }
 
-   const frames = [
+  title.style.opacity = (title.style.opacity == 0 ? 1 : 0);
+  blinkCount++;
+  setTimeout(blinkTitle, TITLE_BLINK_MS);
+}
+
+/* ======================================================*/
+const frames = [
 `      .--.
      |o_o |
      |:_/ |
@@ -130,77 +153,99 @@
    const speechLines = [
      "Today we start with the Start Of Authority config.",
      "These bottons will link to each host!",
-     "A user name and password are needed for vSphere Hypervisor!;,
-     "Note: Don't forget the hack!"
+     "A use name and a password are required.",
+     "This file acts as a live dashboard.",
+     "Remember! Do not forget the hack!"
     ];
 
-    let frameIndex = 0;
-    let speechIndex = 0;
-    let animationInterval;
-
+/*==========HOST MAP==========*/
     const hostMap = {
-      "host0.FQDN": "http://0.0.0.0",
-      "host0.FQDN": "http://0.0.0.0",
-      "host0.FQDN": "http://0.0.0.0",
-      "host0.FQDN": "http://0.0.0.0",
-      "host0.FQDN": "http://0.0.0.0",
-      "host0.FQDN": "http://0.0.0.0",
-      "host0.FQDN": "http://0.0.0.0",
-      "host0.FQDN": "http://0.0.0.0",
+      "host0.FQDN": "https://google.com",
+      "host1.FQDN": "https://outlook.com",
+      "host2.FQDN": "https://facebook.com",
+      "host3.FQDN": "https://youtube.com",
+      "host4.FQDN": "https://0.0.0.0",
+      "host5.FQDN": "http://0.0.0.0",
+      "host6.FQDN": "http://0.0.0.0",
+      "unused1": "http://0.0.0.0",
+      "unused2": "http://0.0.0.0",
+      "unused3": "http://0.0.0.0",
    };
 
-   function startTuxIntro() {
-     document.getElementById('ascii').style.display = 'block';
-     document.getElementById('speech').style.display = 'block';
-     
-     animationInterval = setInterval(() => {
-       document.getElementById('ascii').textContent = frames[frameIndex];
-       frameIndex = (frameIndex + 1) % frame.length;
-     }, 600);
+/* ========== INTRO ========*/
+function startTuxIntro() {
+    ascii.style.display = 'block';
+    speech.style.display = 'block';
 
-     showSpeechLine();
-   }
+    animationInterval = setInterval(() => {
+        ascii.textContent = frames[frameIndex];
+        frameIndex = (frameIndex + 1) % frames.length;
+    }, FRAME_INTERVAL_MS);
 
-   function showSpeechLine() {
-     const speechE1 = document.getElementById('speech');
-     speechE1.textContent = speechLines[speechIndex];
+    showSpeechline();
+}
 
-     speechIndex++;
-     if (speechIndex < speechLines.length) {
-       setTimeout(showSpeechLines, 5000);
-     } else { 
-       setTimeout() => {
-         clearInterval(animationInterval);
-         showButtons();
-       }, 3000);
-     }
-   }
+/*========== SPEECH FLOW ==========*/
+function showSpeechline() {
+  speech.textContent = speechLines[speechIndex];
+  speechIndex++;
 
-   function showButtons() {
-     const container = document.getElementById('effectButtons');
-     container.style.display = 'flex';
-     
-       
-     
+  if (speechIndex < speechLines.length) {
+    setTimeout(showSpeechline, SPEECH_INTERVAL_MS);
+  } else {
+    setTimeout(() => {
+      clearInterval(animationInterval);
+      showButtons();
+      scheduleNextLoop();
+    }, 3000);
+  }
+}
+/*========== BUTTONS ==========*/
+function showButtons() {
+  buttonsContainer.style.display = 'flex';
 
+  document.querySelectorAll('.btn').forEach(btn => {
+    const host = btn.innerText.trim();
+    if (hostMap[host]) {
+      btn.onclick = () => window.open(hostMap[host], "_blank");
+    }
+    btn.classList.add('show');
+  });
+  
+  document.getElementById('restartBtn').style.display = 'inline-block';
+}  
+
+/*========== AUTO LOOP: function ==========*/
+function scheduleNextLoop() {
+  if (!LOOP_ENABLED) return;
+
+  setTimeout(() => {
+   restartAnimation();
+  }, LOOP_DELAY_MS);
+}  
+
+/*========== RESET: function ==========*/
+function restartAnimation() {
+  clearInterval(animationInterval);
+  blinkCount = 0;
+  frameIndex = 0;
+  speechIndex = 0;
+
+  ascii.style.display = 'none';
+  speech.style.display = 'none';
+  buttonsContainer.style.display = 'none';
+
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.classList.remove('show');
+  });
+  
+  blinkTitle();
+}
    
- </script> 
+/* ========== INIT ========== */
+document.getElementById('restartBtn').onclick = restartAnimation;
+blinkTitle();
+</script>
 
-
-
-
-
-
-  
-
-    
-  
-  
-  
-  
-  
-
-    
-    
-  </body>
-
+</body>
+</html>
